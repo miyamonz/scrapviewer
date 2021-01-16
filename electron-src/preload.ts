@@ -17,3 +17,7 @@ process.once("loaded", () => {
   global.ipcRenderer = ipcRenderer;
 });
 
+contextBridge.exposeInMainWorld("rpc", {
+  test: (message: object) => ipcRenderer.invoke("test", message),
+  getAppPath: () => ipcRenderer.invoke("getAppPath"),
+});

@@ -45,3 +45,11 @@ ipcMain.on("message", (event: IpcMainEvent, message: any) => {
   event.sender.send("message", message);
 });
 
+ipcMain.handle("test", (_event: IpcMainInvokeEvent, message: any) => {
+  console.log(message);
+  return "hello, from main process";
+});
+ipcMain.handle("getAppPath", (_event: IpcMainInvokeEvent) => {
+  const path = app.getAppPath()
+  return path
+});

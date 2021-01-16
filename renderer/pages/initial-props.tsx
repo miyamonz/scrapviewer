@@ -10,6 +10,12 @@ type Props = {
   pathname: string
 }
 
+export async function getStaticProps() {
+  const items: User[] = await findAll()
+
+  return { props: { items } }
+}
+
 const WithInitialProps = ({ items }: Props) => {
   const router = useRouter()
   return (
@@ -26,10 +32,5 @@ const WithInitialProps = ({ items }: Props) => {
   )
 }
 
-export async function getStaticProps() {
-  const items: User[] = await findAll()
-
-  return { props: { items } }
-}
 
 export default WithInitialProps
