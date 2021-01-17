@@ -1,17 +1,30 @@
 import { atom } from "jotai";
+import type { PrimitiveAtom } from "jotai";
+
 //import { getProject } from "./pages/api/project";
-async function getProject(project: string): Promise<JSON> {
+async function getProject(project: string): Promise<ProjectJson> {
   return fetch(`./api/project?project=${project}`).then((res) => res.json());
 }
 
-const prefetched: { [key: string]: JSON } = {};
+export interface Page {
+  title: string;
+  created: number;
+  updated: number;
+  id: string;
+  lines: any[];
+}
+interface ProjectJson extends JSON {
+  pages: Page[];
+}
+const empty = { pages: [] };
+const prefetched: { [key: string]: ProjectJson } = {};
 
-export const projectNameAtom = atom(null);
+export const projectNameAtom = atom(null!) as PrimitiveAtom<string>;
 
 export const jsonAtom = atom((get) => {
   const name = get(projectNameAtom);
   if (name === null) {
-    return {};
+    return empty;
   }
   if (prefetched[name]) {
     return prefetched[name];

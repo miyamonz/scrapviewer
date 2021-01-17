@@ -1,10 +1,13 @@
 import type { AppProps } from "next/app";
 import { Provider } from "jotai";
 
-export default function App({ Component, pageProps }: AppProps) {
+export default function App(appProps: AppProps) {
+  const { Component, pageProps } = appProps;
   return (
     <Provider>
-      <Component {...pageProps} />
+      <div suppressHydrationWarning>
+        {typeof window === "undefined" ? null : <Component {...pageProps} />}
+      </div>
     </Provider>
   );
 }
